@@ -4,6 +4,7 @@
 
 void setup() {
   smartdisplay_init();
+  smartdisplay_lcd_set_backlight(1.0);
   auto display = lv_display_get_default();
   lv_display_set_rotation(display, LV_DISPLAY_ROTATION_90);
   ui_init();
