@@ -1,18 +1,24 @@
 #include <Arduino.h>
+#include <esp32_smartdisplay.h>
+#include <ui/ui.h>
+#include <eez-framework.h> // for eez-framwork only
 
-// put function declarations here:
-int myFunction(int, int);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  smartdisplay_init();
+  auto display = lv_display_get_default();
+  lv_display_set_rotation(display, LV_DISPLAY_ROTATION_90);
+  ui_init();
 }
+
+auto lv_last_tick = millis();
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  auto const now = millis();
+  // Update the ticker
+  lv_tick_inc(now - lv_last_tick);
+  lv_last_tick = now;
+  // Update the UI
+  lv_timer_handler();
+  ui_tick();
 }
