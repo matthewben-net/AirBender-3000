@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include <esp32_smartdisplay.h>
 #include <ui/ui.h>
-#include <eez-framework.h> // for eez-framwork only
-
 
 void setup() {
   smartdisplay_init();
