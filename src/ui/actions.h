@@ -7,6 +7,9 @@
 extern "C" {
 #endif
 
+extern void action_inc_brightness(lv_event_t * e);
+extern void action_dec_brightness(lv_event_t * e);
+extern void update_brightness_display();  // Add this line to declare the function
 
 
 #ifdef __cplusplus
