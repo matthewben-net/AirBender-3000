@@ -48,7 +48,7 @@ void create_screen_main() {
                             objects.btn_decrease_brightness = obj;
                             lv_obj_set_pos(obj, 255, 204);
                             lv_obj_set_size(obj, 72, 39);
-                            lv_obj_add_event_cb(obj, action_dec_brightness, LV_EVENT_RELEASED, (void *)0);
+                            lv_obj_add_event_cb(obj, action_dec_brightness, LV_EVENT_PRESSING, (void *)0);
                             lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
                             {
                                 lv_obj_t *parent_obj = obj;
@@ -67,6 +67,8 @@ void create_screen_main() {
                             objects.obj0 = obj;
                             lv_obj_set_pos(obj, 255, 146);
                             lv_obj_set_size(obj, 176, 18);
+                            lv_bar_set_range(obj, -100, 100);
+                            lv_bar_set_mode(obj, LV_BAR_MODE_SYMMETRICAL);
                             lv_obj_add_event_cb(obj, event_handler_cb_main_obj0, LV_EVENT_ALL, 0);
                         }
                         {
@@ -75,7 +77,7 @@ void create_screen_main() {
                             objects.btn_increase_brightness = obj;
                             lv_obj_set_pos(obj, 360, 204);
                             lv_obj_set_size(obj, 71, 39);
-                            lv_obj_add_event_cb(obj, action_inc_brightness, LV_EVENT_RELEASED, (void *)0);
+                            lv_obj_add_event_cb(obj, action_inc_brightness, LV_EVENT_PRESSING, (void *)0);
                             lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
                             {
                                 lv_obj_t *parent_obj = obj;

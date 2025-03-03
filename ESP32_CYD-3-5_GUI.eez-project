@@ -275,7 +275,7 @@
                       "eventHandlers": [
                         {
                           "objID": "6c1c7ec0-2cb4-40d0-e354-fb31e7ca2555",
-                          "eventName": "RELEASED",
+                          "eventName": "PRESSING",
                           "handlerType": "action",
                           "action": "Dec_Brightness",
                           "userData": 0
@@ -430,7 +430,7 @@
                       "eventHandlers": [
                         {
                           "objID": "7921a125-9e7c-44cd-ab68-7e4f38f87503",
-                          "eventName": "RELEASED",
+                          "eventName": "PRESSING",
                           "handlerType": "action",
                           "action": "Inc_Brightness",
                           "userData": 0
