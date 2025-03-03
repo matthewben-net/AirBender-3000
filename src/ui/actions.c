@@ -20,7 +20,7 @@ void update_brightness_display() {
 
 void action_inc_brightness(lv_event_t * e) {
     if (brightness < 1.0) {
-        brightness += 0.1;
+        brightness += 0.01;
         if (brightness > 1.0) brightness = 1.0;  // Ensure max is 100%
         smartdisplay_lcd_set_backlight(brightness);  // Apply brightness
         update_brightness_display();  // Update UI elements
@@ -29,8 +29,8 @@ void action_inc_brightness(lv_event_t * e) {
 
 void action_dec_brightness(lv_event_t * e) {
     if (brightness > 0.1) {
-        brightness -= 0.1;
-        if (brightness < 0.0) brightness = 0.1;  // Ensure min is 0%
+        brightness -= 0.01;
+        if (brightness < 0.1) brightness = 0.1;  // Ensure min is 10%
         smartdisplay_lcd_set_backlight(brightness);  // Apply brightness
         update_brightness_display();  // Update UI elements
     }
