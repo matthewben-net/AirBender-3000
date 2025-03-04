@@ -7,6 +7,8 @@
 #include "ui.h"
 #include "globals.h"
 
+extern void sendStepperCommand(uint8_t command);  // Declare the C++ function
+
 float brightness = 0.3;
 
 void update_brightness_display() {
@@ -31,7 +33,15 @@ void action_dec_brightness(lv_event_t * e) {
     if (brightness > 0.1) {
         brightness -= 0.01;
         if (brightness < 0.1) brightness = 0.1;  // Ensure min is 10%
-        smartdisplay_lcd_set_backlight(brightness);  // Apply brightness
+        smartdisplay_lcd_set_backlight(brightness);  // Apply brigtness
         update_brightness_display();  // Update UI elements
     }
+}
+
+void action_act_raise_stepper(lv_event_t *e) {
+    sendStepperCommand(1);  // Send command for clockwise
+}
+
+void action_act_lower_stepper(lv_event_t *e) {
+    sendStepperCommand(2);  // Send command for counterclockwise
 }

@@ -139,6 +139,22 @@
       "localVariables": [],
       "userProperties": [],
       "name": "Dec_Brightness"
+    },
+    {
+      "objID": "5a3fba57-f32d-497d-f5ea-78b5a86ed279",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "act_lower_stepper"
+    },
+    {
+      "objID": "f853d223-1e9f-4e89-ad43-92e8c1b68e6d",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "act_raise_stepper"
     }
   ],
   "userPages": [
@@ -866,7 +882,15 @@
                       },
                       "locked": true,
                       "timeline": [],
-                      "eventHandlers": [],
+                      "eventHandlers": [
+                        {
+                          "objID": "26a7c4b3-e46b-47c7-c0eb-bbe8db912148",
+                          "eventName": "PRESSING",
+                          "handlerType": "action",
+                          "action": "act_lower_stepper",
+                          "userData": 0
+                        }
+                      ],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -964,7 +988,15 @@
                       },
                       "locked": true,
                       "timeline": [],
-                      "eventHandlers": [],
+                      "eventHandlers": [
+                        {
+                          "objID": "aeebf5dd-6603-471d-8b3d-9aacfc2db838",
+                          "eventName": "PRESSING",
+                          "handlerType": "action",
+                          "action": "act_raise_stepper",
+                          "userData": 0
+                        }
+                      ],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",

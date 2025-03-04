@@ -146,6 +146,7 @@ void create_screen_main() {
                             lv_obj_t *obj = lv_btn_create(parent_obj);
                             lv_obj_set_pos(obj, 230, 244);
                             lv_obj_set_size(obj, 72, 33);
+                            lv_obj_add_event_cb(obj, action_act_lower_stepper, LV_EVENT_PRESSING, (void *)0);
                             lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
                             {
                                 lv_obj_t *parent_obj = obj;
@@ -162,6 +163,7 @@ void create_screen_main() {
                             lv_obj_t *obj = lv_btn_create(parent_obj);
                             lv_obj_set_pos(obj, 327, 244);
                             lv_obj_set_size(obj, 72, 33);
+                            lv_obj_add_event_cb(obj, action_act_raise_stepper, LV_EVENT_PRESSING, (void *)0);
                             lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
                             {
                                 lv_obj_t *parent_obj = obj;
