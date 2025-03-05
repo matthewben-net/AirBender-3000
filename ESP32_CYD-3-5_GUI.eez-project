@@ -680,7 +680,7 @@
                       "type": "LVGLLabelWidget",
                       "left": 54,
                       "top": 226,
-                      "width": 86,
+                      "width": 66,
                       "height": 35,
                       "customInputs": [],
                       "customOutputs": [],
@@ -720,7 +720,7 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "969N",
+                      "text": "69N",
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false

@@ -115,7 +115,7 @@ void create_screen_main() {
                             lv_obj_t *obj = lv_label_create(parent_obj);
                             lv_obj_set_pos(obj, 54, 226);
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                            lv_label_set_text(obj, "969N");
+                            lv_label_set_text(obj, "69N");
                             lv_obj_set_style_text_font(obj, &lv_font_montserrat_32, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                         {
