@@ -13,6 +13,10 @@
 objects_t objects;
 lv_obj_t *tick_value_change_obj;
 
+static void event_handler_cb_main_angle_bar(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+}
+
 static void event_handler_cb_main_obj0(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
 }
@@ -45,7 +49,9 @@ void create_screen_main() {
                             lv_obj_set_size(obj, 209, 145);
                         }
                         {
+                            // eez_angle_chart
                             lv_obj_t *obj = lv_chart_create(parent_obj);
+                            objects.eez_angle_chart = obj;
                             lv_obj_set_pos(obj, 228, 3);
                             lv_obj_set_size(obj, 180, 85);
                         }
@@ -131,9 +137,9 @@ void create_screen_main() {
                             objects.angle_bar = obj;
                             lv_obj_set_pos(obj, 230, 162);
                             lv_obj_set_size(obj, 169, 20);
-                            lv_bar_set_range(obj, -100, 100);
+                            lv_bar_set_range(obj, -30, 30);
                             lv_bar_set_mode(obj, LV_BAR_MODE_SYMMETRICAL);
-                            lv_bar_set_value(obj, 25, LV_ANIM_ON);
+                            lv_obj_add_event_cb(obj, event_handler_cb_main_angle_bar, LV_EVENT_ALL, 0);
                         }
                         {
                             // string_mpu_angle
@@ -203,6 +209,8 @@ void create_screen_main() {
                                     lv_obj_t *obj = lv_chart_create(parent_obj);
                                     lv_obj_set_pos(obj, 10, 10);
                                     lv_obj_set_size(obj, 428, 300);
+                                    lv_obj_clear_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+                                    lv_obj_add_state(obj, LV_STATE_CHECKED);
                                 }
                             }
                         }
@@ -307,6 +315,15 @@ void create_screen_main() {
 }
 
 void tick_screen_main() {
+    {
+        int32_t new_val = get_var_float_mpu_angle_number();
+        int32_t cur_val = lv_bar_get_value(objects.angle_bar);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.angle_bar;
+            lv_bar_set_value(objects.angle_bar, new_val, LV_ANIM_ON);
+            tick_value_change_obj = NULL;
+        }
+    }
     {
         const char *new_val = get_var_string_mpu_angle_data();
         const char *cur_val = lv_label_get_text(objects.string_mpu_angle);

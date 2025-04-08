@@ -17,7 +17,8 @@ extern "C" {
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_EEZVAR_SCREEN_BRIGHTNESS = 0,
     FLOW_GLOBAL_VARIABLE_INT_SCREEN_BRIGHTNESS = 1,
-    FLOW_GLOBAL_VARIABLE_STRING_MPU_ANGLE_DATA = 2
+    FLOW_GLOBAL_VARIABLE_STRING_MPU_ANGLE_DATA = 2,
+    FLOW_GLOBAL_VARIABLE_FLOAT_MPU_ANGLE_NUMBER = 3
 };
 
 // Native global variables
@@ -28,6 +29,8 @@ extern int32_t get_var_int_screen_brightness();
 extern void set_var_int_screen_brightness(int32_t value);
 extern const char *get_var_string_mpu_angle_data();
 extern void set_var_string_mpu_angle_data(const char *value);
+extern float get_var_float_mpu_angle_number();
+extern void set_var_float_mpu_angle_number(float value);
 
 
 #ifdef __cplusplus

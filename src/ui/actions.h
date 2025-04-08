@@ -11,7 +11,7 @@ extern void action_inc_brightness(lv_event_t * e);
 extern void action_dec_brightness(lv_event_t * e);
 extern void action_act_lower_stepper(lv_event_t * e);
 extern void action_act_raise_stepper(lv_event_t * e);
-extern void update_brightness_display();  // Add this line to declare the function
+extern void update_brightness_display();
 
 #ifdef __cplusplus
 }

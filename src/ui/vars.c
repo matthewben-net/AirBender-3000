@@ -38,3 +38,14 @@ void set_var_string_mpu_angle_data(const char *value) {
     strncpy(string_mpu_angle_data, value, sizeof(string_mpu_angle_data) / sizeof(char));
     string_mpu_angle_data[sizeof(string_mpu_angle_data) / sizeof(char) - 1] = 0;
 }
+
+// Angle float used to set the angle bar graph
+float float_mpu_angle_number;
+
+float get_var_float_mpu_angle_number() {
+    return float_mpu_angle_number;
+}
+
+void set_var_float_mpu_angle_number(float value) {
+    float_mpu_angle_number = value;
+}

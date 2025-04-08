@@ -11,7 +11,6 @@ TwoWire myI2C = TwoWire(1);  // Use I2C bus 1
 
 
 void setup() {
-  Serial.begin(115200);
   smartdisplay_init();
   ui_init();
   smartdisplay_lcd_set_backlight(brightness);
