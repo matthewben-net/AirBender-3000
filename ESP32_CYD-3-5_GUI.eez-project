@@ -171,6 +171,14 @@
       "localVariables": [],
       "userProperties": [],
       "name": "act_raise_stepper"
+    },
+    {
+      "objID": "17d10c6e-8b8a-444c-cc39-129e937b1009",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "act_brightness_slider_changed"
     }
   ],
   "userPages": [
@@ -263,6 +271,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "Speed_Panel",
@@ -304,6 +313,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "eez_angle_chart",
@@ -345,6 +355,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -395,6 +406,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "Lift_Panel",
@@ -436,6 +448,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -486,6 +499,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -526,6 +540,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -576,6 +591,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "Drag_Panel",
@@ -668,6 +684,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -708,6 +725,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -758,6 +776,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "Angle_Panel",
@@ -799,6 +818,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "Angle_Bar",
@@ -900,6 +920,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [
                         {
@@ -931,6 +952,7 @@
                             "childStyles": []
                           },
                           "locked": true,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "leftUnit": "px",
@@ -1006,6 +1028,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [
                         {
@@ -1037,6 +1060,7 @@
                             "childStyles": []
                           },
                           "locked": true,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "leftUnit": "px",
@@ -1156,6 +1180,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -1179,6 +1204,7 @@
                             "childStyles": []
                           },
                           "locked": true,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "leftUnit": "px",
@@ -1258,6 +1284,7 @@
                     "conditionalStyles": [],
                     "childStyles": []
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "leftUnit": "px",
@@ -1281,6 +1308,7 @@
                         "childStyles": []
                       },
                       "locked": true,
+                      "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
                       "leftUnit": "px",
@@ -1304,6 +1332,7 @@
                             "childStyles": []
                           },
                           "locked": true,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "leftUnit": "px",
@@ -1329,29 +1358,38 @@
                           "groupIndex": 0
                         },
                         {
-                          "objID": "0356f11b-d546-43da-efe5-ed2f461cfa5c",
-                          "type": "LVGLBarWidget",
+                          "objID": "088fca1e-d130-4fa0-fa2d-d135810c5c41",
+                          "type": "LVGLSliderWidget",
                           "left": 20,
-                          "top": 90,
-                          "width": 408,
-                          "height": 28,
+                          "top": 69,
+                          "width": 404,
+                          "height": 18,
                           "customInputs": [],
                           "customOutputs": [],
                           "style": {
-                            "objID": "c06fae07-91dc-4bbf-8984-800184b150aa",
+                            "objID": "8a17ff6b-018c-44e6-cb30-5e1ba06055bc",
                             "useStyle": "default",
                             "conditionalStyles": [],
                             "childStyles": []
                           },
-                          "locked": true,
+                          "locked": false,
+                          "hiddenInEditor": false,
                           "timeline": [],
-                          "eventHandlers": [],
+                          "eventHandlers": [
+                            {
+                              "objID": "17853d0c-d4ac-48c6-dedf-296a4ed673b0",
+                              "eventName": "VALUE_CHANGED",
+                              "handlerType": "action",
+                              "action": "act_brightness_slider_changed",
+                              "userData": 0
+                            }
+                          ],
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "px",
                           "heightUnit": "px",
                           "children": [],
-                          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_ON_FOCUS|SCROLL_WITH_ARROW|SNAPPABLE",
                           "hiddenFlagType": "literal",
                           "clickableFlag": true,
                           "clickableFlagType": "literal",
@@ -1363,7 +1401,7 @@
                           "disabledStateType": "literal",
                           "states": "",
                           "localStyles": {
-                            "objID": "4bc7c2fa-3963-41c8-eb5e-007aaed0338a"
+                            "objID": "ca74e088-bbb5-467e-a25e-59bea127563e"
                           },
                           "group": "",
                           "groupIndex": 0,
@@ -1372,15 +1410,15 @@
                           "mode": "NORMAL",
                           "value": "int_screen_brightness",
                           "valueType": "expression",
-                          "valueStart": 0,
-                          "valueStartType": "literal",
+                          "valueLeft": 0,
+                          "valueLeftType": "literal",
                           "enableAnimation": true
                         },
                         {
                           "objID": "355b33a9-de1b-409c-abaf-d6b7113ebcea",
                           "type": "LVGLLabelWidget",
                           "left": 61,
-                          "top": 30,
+                          "top": 22,
                           "width": 336,
                           "height": 40,
                           "customInputs": [],
@@ -1391,7 +1429,8 @@
                             "conditionalStyles": [],
                             "childStyles": []
                           },
-                          "locked": true,
+                          "locked": false,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "identifier": "",
@@ -1430,8 +1469,8 @@
                         {
                           "objID": "1cbf3967-2262-4c29-8d54-e811a7ebdf3c",
                           "type": "LVGLLabelWidget",
-                          "left": 0,
-                          "top": 17,
+                          "left": -3,
+                          "top": -50,
                           "width": 302,
                           "height": 24,
                           "customInputs": [],
@@ -1442,7 +1481,8 @@
                             "conditionalStyles": [],
                             "childStyles": []
                           },
-                          "locked": true,
+                          "locked": false,
+                          "hiddenInEditor": false,
                           "timeline": [],
                           "eventHandlers": [],
                           "leftUnit": "px",

@@ -19,6 +19,13 @@ static void event_handler_cb_main_angle_bar(lv_event_t *e) {
 
 static void event_handler_cb_main_obj0(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        if (tick_value_change_obj != ta) {
+            int32_t value = lv_slider_get_value(ta);
+            set_var_int_screen_brightness(value);
+        }
+    }
 }
 
 void create_screen_main() {
@@ -241,15 +248,16 @@ void create_screen_main() {
                                     lv_obj_set_size(obj, 428, 300);
                                 }
                                 {
-                                    lv_obj_t *obj = lv_bar_create(parent_obj);
+                                    lv_obj_t *obj = lv_slider_create(parent_obj);
                                     objects.obj0 = obj;
-                                    lv_obj_set_pos(obj, 20, 90);
-                                    lv_obj_set_size(obj, 408, 28);
+                                    lv_obj_set_pos(obj, 20, 69);
+                                    lv_obj_set_size(obj, 404, 18);
+                                    lv_obj_add_event_cb(obj, action_act_brightness_slider_changed, LV_EVENT_VALUE_CHANGED, (void *)0);
                                     lv_obj_add_event_cb(obj, event_handler_cb_main_obj0, LV_EVENT_ALL, 0);
                                 }
                                 {
                                     lv_obj_t *obj = lv_label_create(parent_obj);
-                                    lv_obj_set_pos(obj, 61, 30);
+                                    lv_obj_set_pos(obj, 61, 22);
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     lv_label_set_text(obj, "Screen Brightness");
                                     lv_obj_set_style_text_font(obj, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -257,51 +265,11 @@ void create_screen_main() {
                                 {
                                     lv_obj_t *obj = lv_label_create(parent_obj);
                                     objects.obj1 = obj;
-                                    lv_obj_set_pos(obj, 0, 17);
+                                    lv_obj_set_pos(obj, -3, -50);
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     lv_label_set_text(obj, "");
                                     lv_obj_set_style_text_font(obj, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
                                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                }
-                                {
-                                    // btn_decrease_brightness
-                                    lv_obj_t *obj = lv_btn_create(parent_obj);
-                                    objects.btn_decrease_brightness = obj;
-                                    lv_obj_set_pos(obj, 73, 218);
-                                    lv_obj_set_size(obj, 130, 39);
-                                    lv_obj_add_event_cb(obj, action_dec_brightness, LV_EVENT_PRESSING, (void *)0);
-                                    lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    {
-                                        lv_obj_t *parent_obj = obj;
-                                        {
-                                            lv_obj_t *obj = lv_label_create(parent_obj);
-                                            lv_obj_set_pos(obj, 0, 0);
-                                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                                            lv_label_set_text(obj, "Decrease");
-                                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                            lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                        }
-                                    }
-                                }
-                                {
-                                    // btn_increase_brightness
-                                    lv_obj_t *obj = lv_btn_create(parent_obj);
-                                    objects.btn_increase_brightness = obj;
-                                    lv_obj_set_pos(obj, 245, 218);
-                                    lv_obj_set_size(obj, 130, 39);
-                                    lv_obj_add_event_cb(obj, action_inc_brightness, LV_EVENT_PRESSING, (void *)0);
-                                    lv_obj_set_style_radius(obj, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    {
-                                        lv_obj_t *parent_obj = obj;
-                                        {
-                                            lv_obj_t *obj = lv_label_create(parent_obj);
-                                            lv_obj_set_pos(obj, 0, 0);
-                                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                                            lv_label_set_text(obj, "Increase");
-                                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                            lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -335,10 +303,10 @@ void tick_screen_main() {
     }
     {
         int32_t new_val = get_var_int_screen_brightness();
-        int32_t cur_val = lv_bar_get_value(objects.obj0);
+        int32_t cur_val = lv_slider_get_value(objects.obj0);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj0;
-            lv_bar_set_value(objects.obj0, new_val, LV_ANIM_ON);
+            lv_slider_set_value(objects.obj0, new_val, LV_ANIM_ON);
             tick_value_change_obj = NULL;
         }
     }

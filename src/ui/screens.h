@@ -17,8 +17,6 @@ typedef struct _objects_t {
     lv_obj_t *drag_panel;
     lv_obj_t *angle_panel;
     lv_obj_t *string_mpu_angle;
-    lv_obj_t *btn_decrease_brightness;
-    lv_obj_t *btn_increase_brightness;
     lv_obj_t *obj1;
 } objects_t;
 

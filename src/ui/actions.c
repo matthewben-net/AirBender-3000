@@ -9,7 +9,7 @@
 
 extern void sendStepperCommand(uint8_t command);  // Declare the C++ function
 
-float brightness = 0.3;
+float brightness = 0.5;
 
 void update_brightness_display() {
     // Update brightness label
@@ -20,28 +20,31 @@ void update_brightness_display() {
     set_var_int_screen_brightness((int)(brightness * 100));  
 }
 
-void action_inc_brightness(lv_event_t * e) {
-    if (brightness < 1.0) {
-        brightness += 0.01;
-        if (brightness > 1.0) brightness = 1.0;  // Ensure max is 100%
-        smartdisplay_lcd_set_backlight(brightness);  // Apply brightness
-        update_brightness_display();  // Update UI elements
-    }
-}
-
-void action_dec_brightness(lv_event_t * e) {
-    if (brightness > 0.1) {
-        brightness -= 0.01;
-        if (brightness < 0.1) brightness = 0.1;  // Ensure min is 10%
-        smartdisplay_lcd_set_backlight(brightness);  // Apply brigtness
-        update_brightness_display();  // Update UI elements
-    }
-}
-
 void action_act_raise_stepper(lv_event_t *e) {
     sendStepperCommand(1);  // Send command for clockwise
 }
 
 void action_act_lower_stepper(lv_event_t *e) {
     sendStepperCommand(2);  // Send command for counterclockwise
+}
+
+void action_act_brightness_slider_changed(lv_event_t *e) {
+    lv_obj_t * slider = lv_event_get_target(e);
+    int32_t slider_value = lv_slider_get_value(slider);  // 0–100 range
+
+    // Convert to float (0.0–1.0 brightness)
+    float new_brightness = slider_value / 100.0f;
+
+    // Enforce minimum brightness if you want (e.g., 10%)
+    if (new_brightness < 0.1f) {
+        new_brightness = 0.1f;
+    }
+
+    brightness = new_brightness;
+
+    // Set the screen backlight
+    smartdisplay_lcd_set_backlight(brightness);
+
+    // Update the label and bar to reflect slider movement
+    update_brightness_display();
 }
