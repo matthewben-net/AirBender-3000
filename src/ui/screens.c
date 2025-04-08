@@ -136,11 +136,14 @@ void create_screen_main() {
                             lv_bar_set_value(obj, 25, LV_ANIM_ON);
                         }
                         {
+                            // string_mpu_angle
                             lv_obj_t *obj = lv_label_create(parent_obj);
-                            lv_obj_set_pos(obj, 247, 196);
+                            objects.string_mpu_angle = obj;
+                            lv_obj_set_pos(obj, 110, 78);
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                            lv_label_set_text(obj, "3 Degrees");
+                            lv_label_set_text(obj, "");
                             lv_obj_set_style_text_font(obj, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                         {
                             lv_obj_t *obj = lv_btn_create(parent_obj);
@@ -304,6 +307,15 @@ void create_screen_main() {
 }
 
 void tick_screen_main() {
+    {
+        const char *new_val = get_var_string_mpu_angle_data();
+        const char *cur_val = lv_label_get_text(objects.string_mpu_angle);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.string_mpu_angle;
+            lv_label_set_text(objects.string_mpu_angle, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
     {
         int32_t new_val = get_var_int_screen_brightness();
         int32_t cur_val = lv_bar_get_value(objects.obj0);

@@ -4,12 +4,14 @@
 #include "globals.h"
 #include <ui/actions.h>
 #include <Wire.h>
+#include "mpu.h"  // Include your new MPU logic
 
 #define ARDUINO_ADDRESS 8  
 TwoWire myI2C = TwoWire(1);  // Use I2C bus 1
 
 
 void setup() {
+  Serial.begin(115200);
   smartdisplay_init();
   ui_init();
   smartdisplay_lcd_set_backlight(brightness);
@@ -20,7 +22,7 @@ void setup() {
   
   // Initialize a separate I2C bus on 21/22
   myI2C.begin(21, 22, 100000);
-  
+  mpu6050_init();
 }
 
 extern "C" void sendStepperCommand(uint8_t command) {
@@ -33,6 +35,15 @@ auto lv_last_tick = millis();
 
 void loop() {
   auto const now = millis();
+
+  // Non-blocking timer for MPU6050
+  static unsigned long lastMPUread = 0;
+  const unsigned long mpuInterval = 400;  // in milliseconds
+  if (now - lastMPUread >= mpuInterval) {
+    read_mpu6050_angle();
+    lastMPUread = now;
+  }
+  
   // Update the ticker
   lv_tick_inc(now - lv_last_tick);
   lv_last_tick = now;

@@ -26,3 +26,15 @@ int32_t get_var_int_screen_brightness() {
 void set_var_int_screen_brightness(int32_t value) {
     int_screen_brightness = value;
 }
+
+char string_mpu_angle_data[100] = { 0 };
+
+const char *get_var_string_mpu_angle_data() {
+    return string_mpu_angle_data;
+}
+
+// Angle string that I can use to display x.xx Degrees where x.xx is the angle number
+void set_var_string_mpu_angle_data(const char *value) {
+    strncpy(string_mpu_angle_data, value, sizeof(string_mpu_angle_data) / sizeof(char));
+    string_mpu_angle_data[sizeof(string_mpu_angle_data) / sizeof(char) - 1] = 0;
+}
