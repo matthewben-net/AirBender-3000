@@ -118,6 +118,14 @@
         "defaultValue": "0",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "5eeea03e-b990-420d-f107-434dd3015976",
+        "name": "string_mpu_angle_data",
+        "type": "string",
+        "defaultValue": "\"\"",
+        "persistent": false,
+        "native": false
       }
     ],
     "structures": [],
@@ -818,9 +826,9 @@
                     {
                       "objID": "c3476052-f1b5-4a43-b33a-a2fe82b1486d",
                       "type": "LVGLLabelWidget",
-                      "left": 247,
-                      "top": 196,
-                      "width": 142,
+                      "left": 110,
+                      "top": 78,
+                      "width": 358,
                       "height": 30,
                       "customInputs": [],
                       "customOutputs": [],
@@ -830,9 +838,10 @@
                         "conditionalStyles": [],
                         "childStyles": []
                       },
-                      "locked": true,
+                      "locked": false,
                       "timeline": [],
                       "eventHandlers": [],
+                      "identifier": "string_mpu_angle",
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "content",
@@ -853,15 +862,16 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "text_font": "MONTSERRAT_28"
+                              "text_font": "MONTSERRAT_28",
+                              "align": "CENTER"
                             }
                           }
                         }
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "3 Degrees",
-                      "textType": "literal",
+                      "text": "string_mpu_angle_data",
+                      "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false
                     },
@@ -1472,7 +1482,7 @@
                             "conditionalStyles": [],
                             "childStyles": []
                           },
-                          "locked": true,
+                          "locked": false,
                           "timeline": [],
                           "eventHandlers": [
                             {
