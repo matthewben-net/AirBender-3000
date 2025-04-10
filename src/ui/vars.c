@@ -1,4 +1,5 @@
 #include <lvgl.h>
+#include "mpu.h"
 #include <string.h>
 #include "vars.h"
 #include "screens.h"
@@ -48,4 +49,42 @@ float get_var_float_mpu_angle_number() {
 
 void set_var_float_mpu_angle_number(float value) {
     float_mpu_angle_number = value;
+}
+
+//MPU Address Variables For Settings Switch
+int32_t int_mpu_address_0_1_68_69 = 0;
+
+
+char string_mpu_address_in_ui[100] = "0x68";
+
+const char *get_var_string_mpu_address_in_ui() {
+    return string_mpu_address_in_ui;
+}
+
+void set_var_string_mpu_address_in_ui(const char *value) {
+    strncpy(string_mpu_address_in_ui, value, sizeof(string_mpu_address_in_ui) / sizeof(char));
+    string_mpu_address_in_ui[sizeof(string_mpu_address_in_ui) / sizeof(char) - 1] = 0;
+}
+
+// Helper function to set MPU address in settings
+void update_mpu_address_ui_and_sensor() {
+    if (int_mpu_address_0_1_68_69 == 0) {
+        MPU_ADDRESS = 0x68;
+        set_var_string_mpu_address_in_ui("0x68");
+    } else {
+        MPU_ADDRESS = 0x69;
+        set_var_string_mpu_address_in_ui("0x69");
+    }
+
+    // If needed, reinitialize the sensor with the new address
+    mpu6050_init();
+}
+
+void set_var_int_mpu_address_0_1_68_69(int32_t value) {
+    int_mpu_address_0_1_68_69 = value;
+    update_mpu_address_ui_and_sensor();
+}
+
+int32_t get_var_int_mpu_address_0_1_68_69() {
+    return int_mpu_address_0_1_68_69;
 }

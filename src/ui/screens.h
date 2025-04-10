@@ -11,13 +11,15 @@ typedef struct _objects_t {
     lv_obj_t *main;
     lv_obj_t *angle_bar;
     lv_obj_t *obj0;
+    lv_obj_t *obj1;
     lv_obj_t *speed_panel;
     lv_obj_t *eez_angle_chart;
     lv_obj_t *lift_panel;
     lv_obj_t *drag_panel;
     lv_obj_t *angle_panel;
     lv_obj_t *string_mpu_angle;
-    lv_obj_t *obj1;
+    lv_obj_t *obj2;
+    lv_obj_t *obj3;
 } objects_t;
 
 extern objects_t objects;

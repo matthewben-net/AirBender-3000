@@ -5,6 +5,8 @@
 // Use external I2C bus declared in main.cpp
 extern TwoWire myI2C;
 
+uint8_t MPU_ADDRESS = 0x68; // Default to 0x68
+
 // Toggle debug logging (1 = enabled, 0 = disabled)
 #define DEBUG 0
 
