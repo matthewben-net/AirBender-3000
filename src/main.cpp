@@ -10,21 +10,37 @@
 #define ARDUINO_ADDRESS 8  
 TwoWire myI2C = TwoWire(1);  // Use I2C bus 1
 
+// Force chart series declarations
+lv_chart_series_t *lift_series_sbs;
+lv_chart_series_t *lift_series_full;
+lv_chart_series_t *drag_series_sbs;
+lv_chart_series_t *drag_series_full;
 
 void setup() {
+  //ESP32 smart screen initialization
   smartdisplay_init();
   ui_init();
   smartdisplay_lcd_set_backlight(brightness);
   auto display = lv_display_get_default();
   lv_display_set_rotation(display, LV_DISPLAY_ROTATION_90);
-  // Update the display elements
+  // Set first screen brightness
   update_brightness_display();
   
   // Initialize a separate I2C bus on 21/22
   myI2C.begin(21, 22, 100000);
   mpu6050_init();
   
-  Serial.begin(115200); // Start serial output
+  Serial.begin(115200); // Start serial output for load cell debugging
+
+  // initialize the various lvgl charts for the force datas
+  // Lifts
+  lift_series_sbs  = lv_chart_add_series(objects.more_details_sbs_lift_chart, lv_palette_main(LV_PALETTE_GREEN), LV_CHART_AXIS_PRIMARY_Y);
+  lift_series_full = lv_chart_add_series(objects.more_details_full_lift_chart, lv_palette_main(LV_PALETTE_GREEN), LV_CHART_AXIS_PRIMARY_Y);
+  lv_chart_set_range(objects.more_details_sbs_lift_chart, LV_CHART_AXIS_PRIMARY_Y, -10, 10);
+  lv_chart_set_range(objects.more_details_full_lift_chart, LV_CHART_AXIS_PRIMARY_Y, -10, 10);
+  // Drags
+  drag_series_sbs  = lv_chart_add_series(objects.more_details_sbs_drag_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
+  drag_series_full = lv_chart_add_series(objects.more_details_full_drag_chart, lv_palette_main(LV_PALETTE_BLUE), LV_CHART_AXIS_PRIMARY_Y);
 }
 
 extern "C" void sendStepperCommand(uint8_t command) {
@@ -71,6 +87,13 @@ void read_force_data() {
     Serial.print(" N, Lift: ");
     Serial.print(lift);
     Serial.println(" N");
+
+    // Update the lvgl charts for forces
+    lv_chart_set_next_value(objects.more_details_sbs_lift_chart, lift_series_sbs, lift);
+    lv_chart_set_next_value(objects.more_details_full_lift_chart, lift_series_full, lift);
+    
+    lv_chart_set_next_value(objects.more_details_sbs_drag_chart, drag_series_sbs, drag);
+    lv_chart_set_next_value(objects.more_details_full_drag_chart, drag_series_full, drag);
   }
 }
 

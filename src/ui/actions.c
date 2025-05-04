@@ -48,3 +48,7 @@ void action_act_brightness_slider_changed(lv_event_t *e) {
     // Update the label and bar to reflect slider movement
     update_brightness_display();
 }
+
+void action_act_tare_load_cells(lv_event_t *e) {
+    sendStepperCommand(3);  // Command 3 tells Arduino to tare
+}
