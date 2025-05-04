@@ -88,3 +88,47 @@ void set_var_int_mpu_address_0_1_68_69(int32_t value) {
 int32_t get_var_int_mpu_address_0_1_68_69() {
     return int_mpu_address_0_1_68_69;
 }
+// Load Cell force floats
+float float_drag_force;
+float float_lift_force;
+
+float get_var_float_drag_force() {
+    return float_drag_force;
+}
+
+void set_var_float_drag_force(float value) {
+    float_drag_force = value;
+}
+
+
+float get_var_float_lift_force() {
+    return float_lift_force;
+}
+
+void set_var_float_lift_force(float value) {
+    float_lift_force = value;
+}
+
+// Load cell force strings for labels
+
+char string_drag_force_label[100] = { 0 };
+
+const char *get_var_string_drag_force_label() {
+    return string_drag_force_label;
+}
+
+void set_var_string_drag_force_label(const char *value) {
+    strncpy(string_drag_force_label, value, sizeof(string_drag_force_label) / sizeof(char));
+    string_drag_force_label[sizeof(string_drag_force_label) / sizeof(char) - 1] = 0;
+}
+
+char string_lift_force_label[100] = { 0 };
+
+const char *get_var_string_lift_force_label() {
+    return string_lift_force_label;
+}
+
+void set_var_string_lift_force_label(const char *value) {
+    strncpy(string_lift_force_label, value, sizeof(string_lift_force_label) / sizeof(char));
+    string_lift_force_label[sizeof(string_lift_force_label) / sizeof(char) - 1] = 0;
+}

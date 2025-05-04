@@ -67,9 +67,9 @@ void create_screen_main() {
                             lv_obj_set_size(obj, 209, 145);
                         }
                         {
-                            // eez_angle_chart
+                            // eez_airspeed_chart
                             lv_obj_t *obj = lv_chart_create(parent_obj);
-                            objects.eez_angle_chart = obj;
+                            objects.eez_airspeed_chart = obj;
                             lv_obj_set_pos(obj, 228, 3);
                             lv_obj_set_size(obj, 180, 85);
                         }
@@ -105,11 +105,14 @@ void create_screen_main() {
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         }
                         {
+                            // lift_number
                             lv_obj_t *obj = lv_label_create(parent_obj);
-                            lv_obj_set_pos(obj, 54, 71);
+                            objects.lift_number = obj;
+                            lv_obj_set_pos(obj, -109, -65);
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                            lv_label_set_text(obj, "420N");
+                            lv_label_set_text(obj, "");
                             lv_obj_set_style_text_font(obj, &lv_font_montserrat_32, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                         {
                             // Drag_Panel
@@ -136,11 +139,14 @@ void create_screen_main() {
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         }
                         {
+                            // drag_number
                             lv_obj_t *obj = lv_label_create(parent_obj);
-                            lv_obj_set_pos(obj, 54, 226);
+                            objects.drag_number = obj;
+                            lv_obj_set_pos(obj, -110, 93);
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-                            lv_label_set_text(obj, "69N");
+                            lv_label_set_text(obj, "");
                             lv_obj_set_style_text_font(obj, &lv_font_montserrat_32, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                         {
                             // Angle_Panel
@@ -317,6 +323,24 @@ void create_screen_main() {
 }
 
 void tick_screen_main() {
+    {
+        const char *new_val = get_var_string_lift_force_label();
+        const char *cur_val = lv_label_get_text(objects.lift_number);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.lift_number;
+            lv_label_set_text(objects.lift_number, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = get_var_string_drag_force_label();
+        const char *cur_val = lv_label_get_text(objects.drag_number);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.drag_number;
+            lv_label_set_text(objects.drag_number, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
     {
         int32_t new_val = get_var_float_mpu_angle_number();
         int32_t cur_val = lv_bar_get_value(objects.angle_bar);

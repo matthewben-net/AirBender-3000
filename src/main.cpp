@@ -4,6 +4,7 @@
 #include "globals.h"
 #include <ui/actions.h>
 #include <Wire.h>
+#include <ui/vars.h>
 #include "mpu.h"  // Include your new MPU logic
 
 #define ARDUINO_ADDRESS 8  
@@ -32,6 +33,39 @@ extern "C" void sendStepperCommand(uint8_t command) {
 
 auto lv_last_tick = millis();
 
+void read_force_data() {
+  const uint8_t bytesToRead = 8;  // 2 floats = 8 bytes
+  uint8_t buffer[bytesToRead];
+
+  myI2C.requestFrom(ARDUINO_ADDRESS, bytesToRead);
+  size_t index = 0;
+  while (myI2C.available() && index < bytesToRead) {
+    buffer[index++] = myI2C.read();
+  }
+
+  // Only proceed if we received all 8 bytes
+  if (index == bytesToRead) {
+    float drag = 0.0f;
+    float lift = 0.0f;
+
+    memcpy(&drag, buffer, 4);
+    memcpy(&lift, buffer + 4, 4);
+
+    // Update UI variables
+    set_var_float_drag_force(drag);
+    set_var_float_lift_force(lift);
+
+    char drag_str[32];
+    char lift_str[32];
+    snprintf(drag_str, sizeof(drag_str), "%.2f N", drag);
+    snprintf(lift_str, sizeof(lift_str), "%.2f N", lift);
+
+    set_var_string_drag_force_label(drag_str);
+    set_var_string_lift_force_label(lift_str);
+
+  }
+}
+
 void loop() {
   auto const now = millis();
 
@@ -43,6 +77,14 @@ void loop() {
     lastMPUread = now;
   }
   
+  // Non-blocking timer for force data
+  static unsigned long lastForceRead = 0;
+  const unsigned long forceInterval = 500; // Adjust as needed
+  if (now - lastForceRead >= forceInterval) {
+    read_force_data();
+  lastForceRead = now;
+  }
+
   // Update the ticker
   lv_tick_inc(now - lv_last_tick);
   lv_last_tick = now;

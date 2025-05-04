@@ -150,6 +150,38 @@
         "defaultValue": "\"\"",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "41119a04-35d1-47da-c978-0b76505f6575",
+        "name": "float_drag_force",
+        "type": "float",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "a3928659-2724-4d61-ffab-4ba633c2ead7",
+        "name": "float_lift_force",
+        "type": "float",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "0a79cc17-bfb8-42e6-fae1-829a3d15b7ed",
+        "name": "string_drag_force_label",
+        "type": "string",
+        "defaultValue": "\"\"",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "78daf246-9dcc-402f-a3b6-935202997ab2",
+        "name": "string_lift_force_label",
+        "type": "string",
+        "defaultValue": "\"\"",
+        "persistent": false,
+        "native": false
       }
     ],
     "structures": [],
@@ -316,7 +348,7 @@
                       "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
-                      "identifier": "eez_angle_chart",
+                      "identifier": "eez_airspeed_chart",
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -527,9 +559,9 @@
                     {
                       "objID": "78ee5ee1-3386-41ea-f527-c3764c77fa85",
                       "type": "LVGLLabelWidget",
-                      "left": 54,
-                      "top": 71,
-                      "width": 86,
+                      "left": -109,
+                      "top": -65,
+                      "width": 368,
                       "height": 35,
                       "customInputs": [],
                       "customOutputs": [],
@@ -543,6 +575,7 @@
                       "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
+                      "identifier": "lift_number",
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "content",
@@ -563,15 +596,16 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "text_font": "MONTSERRAT_32"
+                              "text_font": "MONTSERRAT_32",
+                              "align": "CENTER"
                             }
                           }
                         }
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "420N",
-                      "textType": "literal",
+                      "text": "string_lift_force_label",
+                      "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false
                     },
@@ -712,9 +746,9 @@
                     {
                       "objID": "0922c065-cf13-4b64-c9c6-44b11f9fbd6d",
                       "type": "LVGLLabelWidget",
-                      "left": 54,
-                      "top": 226,
-                      "width": 66,
+                      "left": -110,
+                      "top": 93,
+                      "width": 401,
                       "height": 35,
                       "customInputs": [],
                       "customOutputs": [],
@@ -724,10 +758,11 @@
                         "conditionalStyles": [],
                         "childStyles": []
                       },
-                      "locked": true,
+                      "locked": false,
                       "hiddenInEditor": false,
                       "timeline": [],
                       "eventHandlers": [],
+                      "identifier": "drag_number",
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "content",
@@ -748,15 +783,16 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "text_font": "MONTSERRAT_32"
+                              "text_font": "MONTSERRAT_32",
+                              "align": "CENTER"
                             }
                           }
                         }
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "69N",
-                      "textType": "literal",
+                      "text": "string_drag_force_label",
+                      "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false
                     },
@@ -867,7 +903,7 @@
                         "conditionalStyles": [],
                         "childStyles": []
                       },
-                      "locked": false,
+                      "locked": true,
                       "timeline": [],
                       "eventHandlers": [],
                       "identifier": "string_mpu_angle",
