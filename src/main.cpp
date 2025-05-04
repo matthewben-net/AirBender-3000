@@ -23,6 +23,8 @@ void setup() {
   // Initialize a separate I2C bus on 21/22
   myI2C.begin(21, 22, 100000);
   mpu6050_init();
+  
+  Serial.begin(115200); // Start serial output
 }
 
 extern "C" void sendStepperCommand(uint8_t command) {
@@ -62,7 +64,13 @@ void read_force_data() {
 
     set_var_string_drag_force_label(drag_str);
     set_var_string_lift_force_label(lift_str);
-
+    
+    // Serial debugging to print force values to console
+    Serial.print("Parsed Drag: ");
+    Serial.print(drag);
+    Serial.print(" N, Lift: ");
+    Serial.print(lift);
+    Serial.println(" N");
   }
 }
 
