@@ -3,8 +3,8 @@
 
 // Define stepper motor connections and motor interface type. 
 // Motor interface type must be set to 1 when using a driver
-#define dirPin 2
-#define stepPin 3
+#define dirPin 13
+#define stepPin 12
 // Enable pin only required for TMC2208; ignore if necessary
 #define EN_PIN 10    // LOW: Driver enabled, HIGH: Driver disabled
 
