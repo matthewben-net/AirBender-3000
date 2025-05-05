@@ -27,11 +27,22 @@ const uint8_t clockPin_drag = 10;
 const uint8_t dataPin_lift = 9;
 const uint8_t clockPin_lift = 8;
 
-// Calibration and unit conversion
+// Calibration and unit conversion for forces
 const float GRAMS_TO_NEWTONS = 0.00981;
 volatile float drag_newtons = 0.0;
 volatile float lift_newtons = 0.0;
-uint8_t force_data_buffer[8];  // Store pre-converted force data
+
+// Pitot tube airspeed variables
+float V_0 = 5.0; // supply voltage to the sensor
+float rho = 1.204; // air density in kg/m^3
+int offset = 0;
+int offset_size = 10;
+int veloc_mean_size = 20;
+int zero_span = 2;
+float airspeed = 0.0;
+
+// I2C data buffer: 4 bytes drag, 4 bytes lift, 4 bytes airspeed
+uint8_t data_buffer[12];
 
 void setup() {
   // Initialize HX711 scales
@@ -46,8 +57,8 @@ void setup() {
 
   // Initialize I2C communication
   Wire.begin(8);  // Set the Arduino's I2C address to 8
-  Wire.onReceive(receiveData);  // Set up a function to handle incoming stepper motor controls
-  Wire.onRequest(requestEvent); // New function to handle data requests
+  Wire.onReceive(receiveData);  // Function to handle incoming stepper motor commands
+  Wire.onRequest(requestEvent); // Function to handle data requests from ESP32
 
   // Stepper motor initialization
   pinMode(enablePin, OUTPUT);
@@ -55,25 +66,33 @@ void setup() {
   stepper.setMaxSpeed(1000);
   stepper.setAcceleration(1000);
   stepper.setMinPulseWidth(1);  // 1 microsecond for A4988
+
+  // Airspeed sensor offset calibration
+  for (int ii = 0; ii < offset_size; ii++) {
+    offset += analogRead(A0) - (1023 / 2);
+  }
+  offset /= offset_size;
 }
 
 void loop() {
-  // I2C command if statement to determine whether to move the stepper motor or reset the scales
+  // I2C if statement to determine whether to move the stepper motor or reset the scales
   if (commandReceived) {
-    noInterrupts();  // Safely access shared variables
+    noInterrupts();
     int command = motorCommand;
     commandReceived = false;
     interrupts();
 
-  if (command == 1) {
-    digitalWrite(enablePin, LOW);
-    stepper.move(25);
-  } else if (command == 2) {
-      stepper.move(-25);
+    if (command == 1) {
       digitalWrite(enablePin, LOW);
-  } else if (command ==3 ) {
+      stepper.move(25);
+    } else if (command == 2) {
+      digitalWrite(enablePin, LOW);
+      stepper.move(-25);
+    } else if (command == 3) {
       scale_drag.tare();
       scale_lift.tare();
+    } else if (command == 4) {
+      calibrate_airspeed_sensor();
     }
   }
 
@@ -90,22 +109,50 @@ void loop() {
 
   // Runs stepper motor via AccelStepper
   stepper.run();
-  
-  // If loop to read the load cell data, convert it into newtons, and set the buffer to the float needed for the ESP32 to recieve the calculated force floats
+
+  // If loop to read the load cell data, convert it into newtons, measure and calculate the airspeed, and and set the buffer to the float needed for the ESP32 to recieve the calculated force and airspeed floats
   static unsigned long lastRead = 0;
   if (millis() - lastRead > 100) {
+    // Force sensor readings
     float drag = scale_drag.get_units(1);
     float lift = scale_lift.get_units(1);
     drag_newtons = drag * GRAMS_TO_NEWTONS;
     lift_newtons = lift * GRAMS_TO_NEWTONS;
 
-    // Safely update buffer
+    // Airspeed calculation from pitot tube
+    float adc_avg = 0.0;
+    for (int ii = 0; ii < veloc_mean_size; ii++) {
+      adc_avg += analogRead(A0) - offset;
+    }
+    adc_avg /= veloc_mean_size;
+
+    // Convert ADC average to velocity
+    if (adc_avg > 512 - zero_span && adc_avg < 512 + zero_span) {
+      airspeed = 0.0;
+    } else if (adc_avg < 512) {
+      airspeed = -sqrt((-10000.0 * ((adc_avg / 1023.0) - 0.5)) / rho);
+    } else {
+      airspeed = sqrt((10000.0 * ((adc_avg / 1023.0) - 0.5)) / rho);
+    }
+
+    // Safely update I2C data buffer
     noInterrupts();
-    memcpy(force_data_buffer, &drag_newtons, 4);
-    memcpy(force_data_buffer + 4, &lift_newtons, 4);
+    memcpy(data_buffer, &drag_newtons, 4);
+    memcpy(data_buffer + 4, &lift_newtons, 4);
+    memcpy(data_buffer + 8, &airspeed, 4);
     interrupts();
+
     lastRead = millis();
   }
+}
+
+// Function to recalibrate airspeed offset (use this if you accidentally started the airduino when the airflow wasn't at 0, but make sure there isn't any airflow when you run it)
+void calibrate_airspeed_sensor() {
+  offset = 0;
+  for (int ii = 0; ii < offset_size; ii++) {
+    offset += analogRead(A0) - (1023 / 2);
+  }
+  offset /= offset_size;
 }
 
 void receiveData(int byteCount) {
@@ -116,5 +163,5 @@ void receiveData(int byteCount) {
 }
 
 void requestEvent() {
-  Wire.write(force_data_buffer, 8);  // Respond instantly
+  Wire.write(data_buffer, 12);
 }
