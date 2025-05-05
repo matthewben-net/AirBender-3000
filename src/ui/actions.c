@@ -50,5 +50,9 @@ void action_act_brightness_slider_changed(lv_event_t *e) {
 }
 
 void action_act_tare_load_cells(lv_event_t *e) {
-    sendStepperCommand(3);  // Command 3 tells Arduino to tare
+    sendStepperCommand(3);  // Send command to tare the load cells
+}
+
+void action_act_calibrate_airspeed(lv_event_t *e) {
+    sendStepperCommand(3);  // Send command to re-calibrate the pitot tube airspeed
 }

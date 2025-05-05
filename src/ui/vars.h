@@ -22,7 +22,9 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_FLOAT_DRAG_FORCE = 4,
     FLOW_GLOBAL_VARIABLE_FLOAT_LIFT_FORCE = 5,
     FLOW_GLOBAL_VARIABLE_STRING_DRAG_FORCE_LABEL = 6,
-    FLOW_GLOBAL_VARIABLE_STRING_LIFT_FORCE_LABEL = 7
+    FLOW_GLOBAL_VARIABLE_STRING_LIFT_FORCE_LABEL = 7,
+    FLOW_GLOBAL_VARIABLE_STRING_AIRSPEED_LABEL = 8,
+    FLOW_GLOBAL_VARIABLE_BOOL_GRAPH_SPEED = 9
 };
 
 // Native global variables
@@ -43,6 +45,10 @@ extern const char *get_var_string_drag_force_label();
 extern void set_var_string_drag_force_label(const char *value);
 extern const char *get_var_string_lift_force_label();
 extern void set_var_string_lift_force_label(const char *value);
+extern const char *get_var_string_airspeed_label();
+extern void set_var_string_airspeed_label(const char *value);
+extern bool get_var_bool_graph_speed();
+extern void set_var_bool_graph_speed(bool value);
 
 
 #ifdef __cplusplus

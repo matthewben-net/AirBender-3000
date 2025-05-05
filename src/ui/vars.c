@@ -95,3 +95,24 @@ void set_var_string_lift_force_label(const char *value) {
     strncpy(string_lift_force_label, value, sizeof(string_lift_force_label) / sizeof(char));
     string_lift_force_label[sizeof(string_lift_force_label) / sizeof(char) - 1] = 0;
 }
+
+char string_airspeed_label[100] = { 0 };
+
+const char *get_var_string_airspeed_label() {
+    return string_airspeed_label;
+}
+
+void set_var_string_airspeed_label(const char *value) {
+    strncpy(string_airspeed_label, value, sizeof(string_airspeed_label) / sizeof(char));
+    string_airspeed_label[sizeof(string_airspeed_label) / sizeof(char) - 1] = 0;
+}
+
+bool bool_graph_speed;
+
+bool get_var_bool_graph_speed() {
+    return bool_graph_speed;
+}
+
+void set_var_bool_graph_speed(bool value) {
+    bool_graph_speed = value;
+}
