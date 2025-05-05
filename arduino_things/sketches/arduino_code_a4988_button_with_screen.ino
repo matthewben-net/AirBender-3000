@@ -3,11 +3,15 @@
 #include "HX711.h"
 
 // Define stepper motor connections and motor interface type. 
-// Motor interface type must be set to 1 when using a driver
-#define dirPin 13
-#define stepPin 12
+#define enablePin 7
+#define dirPin 6
+#define stepPin 5
 #define motorInterfaceType 1
 AccelStepper stepper = AccelStepper(motorInterfaceType, stepPin, dirPin);
+
+// Variables to keep track of when the stepper motor was last moved, and how long it stays idle before disablement
+unsigned long lastMoveTime = 0;
+const unsigned long motorDisableDelay = 3000;  // 3 seconds after last move
 
 // Motor Control
 volatile int motorCommand = 0;
@@ -38,6 +42,7 @@ void setup() {
   scale_lift.set_offset(114174);
   scale_lift.set_scale(406.546539);
   scale_drag.tare();
+  scale_lift.tare();
 
   // Initialize I2C communication
   Wire.begin(8);  // Set the Arduino's I2C address to 8
@@ -45,30 +50,52 @@ void setup() {
   Wire.onRequest(requestEvent); // New function to handle data requests
 
   // Stepper motor initialization
+  pinMode(enablePin, OUTPUT);
+  digitalWrite(enablePin, LOW); // Start enabled
   stepper.setMaxSpeed(1000);
   stepper.setAcceleration(1000);
   stepper.setMinPulseWidth(1);  // 1 microsecond for A4988
 }
 
 void loop() {
-    if (commandReceived) {
-      noInterrupts();  // Safely access shared variables
-      int command = motorCommand;
-      commandReceived = false;
-      interrupts();
+  // I2C command if statement to determine whether to move the stepper motor or reset the scales
+  if (commandReceived) {
+    noInterrupts();  // Safely access shared variables
+    int command = motorCommand;
+    commandReceived = false;
+    interrupts();
 
-    if (command == 1) {
-      stepper.move(25);
-    } else if (command == 2) {
+  if (command == 1) {
+    digitalWrite(enablePin, LOW);
+    stepper.move(25);
+  } else if (command == 2) {
       stepper.move(-25);
+      digitalWrite(enablePin, LOW);
+  } else if (command ==3 ) {
+      scale_drag.tare();
+      scale_lift.tare();
     }
   }
+
+  // Logic to determine whether the stepper motor should be enabled or idle
+  bool motorIsMoving = stepper.distanceToGo() != 0;
+  if (motorIsMoving) {
+    digitalWrite(enablePin, LOW);  // Keep motor energized
+    lastMoveTime = millis();       // Reset timer
+  }
+  // Disable after delay only if it's done moving
+  if (!motorIsMoving && (millis() - lastMoveTime > motorDisableDelay)) {
+    digitalWrite(enablePin, HIGH); // Disable motor
+  }
+
+  // Runs stepper motor via AccelStepper
   stepper.run();
   
+  // If loop to read the load cell data, convert it into newtons, and set the buffer to the float needed for the ESP32 to recieve the calculated force floats
   static unsigned long lastRead = 0;
   if (millis() - lastRead > 100) {
-    float drag = scale_drag.get_units(5);
-    float lift = scale_lift.get_units(5);
+    float drag = scale_drag.get_units(1);
+    float lift = scale_lift.get_units(1);
     drag_newtons = drag * GRAMS_TO_NEWTONS;
     lift_newtons = lift * GRAMS_TO_NEWTONS;
 
