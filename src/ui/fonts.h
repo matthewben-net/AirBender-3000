@@ -9,6 +9,7 @@ extern "C" {
 
 extern const lv_font_t ui_font_airbender_32;
 extern const lv_font_t ui_font_airbender_40;
+extern const lv_font_t ui_font_airbender_60;
 
 
 #ifdef __cplusplus

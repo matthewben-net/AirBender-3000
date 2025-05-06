@@ -33,13 +33,15 @@ volatile float drag_newtons = 0.0;
 volatile float lift_newtons = 0.0;
 
 // Pitot tube airspeed variables
-float V_0 = 5.0; // supply voltage to the sensor
-float rho = 1.204; // air density in kg/m^3
-int offset = 0;
-int offset_size = 10;
-int veloc_mean_size = 20;
-int zero_span = 2;
+const int sensorPin = A7;
+const float rho = 1.204;  // Air density
+const int offsetSamples = 10;
+const int averageSamples = 20;
+const int zeroSpan = 2;
+const float adcToVolt = 1.0 / 1023.0;
+const float scaleFactor = 10000.0 / rho;
 float airspeed = 0.0;
+int offset = 0;
 
 // I2C data buffer: 4 bytes drag, 4 bytes lift, 4 bytes airspeed
 uint8_t data_buffer[12];
@@ -68,10 +70,11 @@ void setup() {
   stepper.setMinPulseWidth(1);  // 1 microsecond for A4988
 
   // Airspeed sensor offset calibration
-  for (int ii = 0; ii < offset_size; ii++) {
-    offset += analogRead(A0) - (1023 / 2);
+  int offsetSum = 0;
+  for (int i = 0; i < offsetSamples; i++) {
+    offsetSum += analogRead(sensorPin) - 512;
   }
-  offset /= offset_size;
+  offset = offsetSum / offsetSamples;
 }
 
 void loop() {
@@ -120,19 +123,17 @@ void loop() {
     lift_newtons = lift * GRAMS_TO_NEWTONS;
 
     // Airspeed calculation from pitot tube
-    float adc_avg = 0.0;
-    for (int ii = 0; ii < veloc_mean_size; ii++) {
-      adc_avg += analogRead(A0) - offset;
+    int adcSum = 0;
+    for (int i = 0; i < averageSamples; i++) {
+      adcSum += analogRead(sensorPin) - offset;
     }
-    adc_avg /= veloc_mean_size;
+    float adcAvg = adcSum / float(averageSamples);
 
-    // Convert ADC average to velocity
-    if (adc_avg > 512 - zero_span && adc_avg < 512 + zero_span) {
-      airspeed = 0.0;
-    } else if (adc_avg < 512) {
-      airspeed = -sqrt((-10000.0 * ((adc_avg / 1023.0) - 0.5)) / rho);
-    } else {
-      airspeed = sqrt((10000.0 * ((adc_avg / 1023.0) - 0.5)) / rho);
+    airspeed = 0.0;
+    if (adcAvg < 512 - zeroSpan) {
+      airspeed = -sqrt(-scaleFactor * (adcAvg * adcToVolt - 0.5));
+    } else if (adcAvg > 512 + zeroSpan) {
+      airspeed = sqrt(scaleFactor * (adcAvg * adcToVolt - 0.5));
     }
 
     // Safely update I2C data buffer
@@ -148,12 +149,12 @@ void loop() {
 
 // Function to recalibrate airspeed offset (use this if you accidentally started the airduino when the airflow wasn't at 0, but make sure there isn't any airflow when you run it)
 void calibrate_airspeed_sensor() {
-  offset = 0;
-  for (int ii = 0; ii < offset_size; ii++) {
-    offset += analogRead(A0) - (1023 / 2);
+  int offsetSum = 0;
+  for (int i = 0; i < offsetSamples; i++) {
+    offsetSum += analogRead(sensorPin) - 512;
   }
-  offset /= offset_size;
-}
+  offset = offsetSum / offsetSamples;
+}4
 
 void receiveData(int byteCount) {
   while (Wire.available()) {

@@ -17,15 +17,24 @@ lv_chart_series_t *drag_series_sbs;
 lv_chart_series_t *drag_series_full;
 lv_chart_series_t *airspeed_series;
 
+// Splash screen declarations
+unsigned long splash_start_time = 0;
+int splash_stage = 0;
+bool splash_done = false;
+
+
 void setup() {
-  //ESP32 smart screen initialization
   smartdisplay_init();
   ui_init();
-  smartdisplay_lcd_set_backlight(brightness);
+
+  // Splash logic starts with the blank screen
+  splash_start_time = millis();
+  lv_scr_load(objects.starting_splash_blank);  // Start with initial blank screen
+  smartdisplay_lcd_set_backlight(0.5);
+  update_brightness_display();
+
   auto display = lv_display_get_default();
   lv_display_set_rotation(display, LV_DISPLAY_ROTATION_90);
-  // Set first screen brightness
-  update_brightness_display();
   
   // Initialize a separate I2C bus on 21/22
   myI2C.begin(21, 22, 100000);
@@ -122,7 +131,29 @@ void read_arduino_data() {
 void loop() {
   auto const now = millis();
 
-  // Non-blocking timer for MPU6050
+  unsigned long elapsed = now - splash_start_time;
+
+  if (!splash_done) {
+    if (splash_stage == 0 && elapsed > 1000) {
+      // Fade to splash screen after 1s on starting blank
+      lv_scr_load_anim(objects.splash_screen, LV_SCR_LOAD_ANIM_FADE_IN, 1000, 0, false);
+      splash_start_time = now;
+      splash_stage = 1;
+    } 
+    else if (splash_stage == 1 && elapsed > 4500) {
+      // Fade to ending blank screen after 3s on splash screen
+      lv_scr_load_anim(objects.ending_splash_blank, LV_SCR_LOAD_ANIM_FADE_IN, 1500, 0, false);
+      splash_start_time = now;
+      splash_stage = 2;
+    } 
+    else if (splash_stage == 2 && elapsed > 1500) {
+      // Fade to main screen after 1s on ending blank screen
+      lv_scr_load_anim(objects.main, LV_SCR_LOAD_ANIM_FADE_IN, 1000, 0, false);
+      splash_done = true;
+    }
+  }
+
+// Non-blocking timer for MPU6050
   static unsigned long lastMPUread = 0;
   const unsigned long mpuInterval = 400;  // in milliseconds
   if (now - lastMPUread >= mpuInterval) {

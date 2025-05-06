@@ -9,6 +9,9 @@ extern "C" {
 
 typedef struct _objects_t {
     lv_obj_t *main;
+    lv_obj_t *splash_screen;
+    lv_obj_t *starting_splash_blank;
+    lv_obj_t *ending_splash_blank;
     lv_obj_t *angle_bar;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
@@ -39,10 +42,22 @@ extern objects_t objects;
 
 enum ScreensEnum {
     SCREEN_ID_MAIN = 1,
+    SCREEN_ID_SPLASH_SCREEN = 2,
+    SCREEN_ID_STARTING_SPLASH_BLANK = 3,
+    SCREEN_ID_ENDING_SPLASH_BLANK = 4,
 };
 
 void create_screen_main();
 void tick_screen_main();
+
+void create_screen_splash_screen();
+void tick_screen_splash_screen();
+
+void create_screen_starting_splash_blank();
+void tick_screen_starting_splash_blank();
+
+void create_screen_ending_splash_blank();
+void tick_screen_ending_splash_blank();
 
 void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);

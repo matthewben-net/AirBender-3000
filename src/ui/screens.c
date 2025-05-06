@@ -717,11 +717,60 @@ void tick_screen_main() {
     }
 }
 
+void create_screen_splash_screen() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.splash_screen = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 480, 320);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 70, 135);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "AirBender 3000");
+            lv_obj_set_style_text_font(obj, &ui_font_airbender_60, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+    }
+    
+    tick_screen_splash_screen();
+}
+
+void tick_screen_splash_screen() {
+}
+
+void create_screen_starting_splash_blank() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.starting_splash_blank = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 480, 320);
+    
+    tick_screen_starting_splash_blank();
+}
+
+void tick_screen_starting_splash_blank() {
+}
+
+void create_screen_ending_splash_blank() {
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.ending_splash_blank = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 480, 320);
+    
+    tick_screen_ending_splash_blank();
+}
+
+void tick_screen_ending_splash_blank() {
+}
+
 
 
 typedef void (*tick_screen_func_t)();
 tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_main,
+    tick_screen_splash_screen,
+    tick_screen_starting_splash_blank,
+    tick_screen_ending_splash_blank,
 };
 void tick_screen(int screen_index) {
     tick_screen_funcs[screen_index]();
@@ -736,4 +785,7 @@ void create_screens() {
     lv_disp_set_theme(dispp, theme);
     
     create_screen_main();
+    create_screen_splash_screen();
+    create_screen_starting_splash_blank();
+    create_screen_ending_splash_blank();
 }
