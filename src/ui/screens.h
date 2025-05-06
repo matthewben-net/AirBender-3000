@@ -28,9 +28,10 @@ typedef struct _objects_t {
     lv_obj_t *more_details_full_lift_chart;
     lv_obj_t *more_details_full_lift_string;
     lv_obj_t *more_details_full_drag_chart;
-    lv_obj_t *more_details_full_drag_string;
+    lv_obj_t *more_details_full_drag_string_1;
     lv_obj_t *screen_brightness_string;
     lv_obj_t *load_cell_tare_button;
+    lv_obj_t *airspeed_calibrate_button;
     lv_obj_t *obj2;
 } objects_t;
 

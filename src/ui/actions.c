@@ -54,5 +54,5 @@ void action_act_tare_load_cells(lv_event_t *e) {
 }
 
 void action_act_calibrate_airspeed(lv_event_t *e) {
-    sendStepperCommand(3);  // Send command to re-calibrate the pitot tube airspeed
+    sendStepperCommand(4);  // Send command to re-calibrate the pitot tube airspeed
 }
