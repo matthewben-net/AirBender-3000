@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 // MPU6050 I2C address
-extern uint8_t MPU_ADDRESS;
+extern const uint8_t MPU_ADDRESS;
 
 // Function declarations
 void mpu6050_init();

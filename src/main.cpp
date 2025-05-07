@@ -7,7 +7,7 @@
 #include <ui/vars.h>
 #include "mpu.h"  // Include your new MPU logic
 
-#define ARDUINO_ADDRESS 8  
+const uint8_t ARDUINO_ADDRESS = 8;
 TwoWire myI2C = TwoWire(1);  // Use I2C bus 1
 
 // Chart series declarations
@@ -68,7 +68,7 @@ void read_arduino_data() {
   const uint8_t bytesToRead = 12;  // 3 floats = 12 bytes
   uint8_t buffer[bytesToRead];
 
-  myI2C.requestFrom(ARDUINO_ADDRESS, bytesToRead);
+  myI2C.requestFrom((uint8_t)ARDUINO_ADDRESS, (uint8_t)bytesToRead);
   size_t index = 0;
   while (myI2C.available() && index < bytesToRead) {
     buffer[index++] = myI2C.read();

@@ -5,7 +5,7 @@
 // Use external I2C bus declared in main.cpp
 extern TwoWire myI2C;
 
-uint8_t MPU_ADDRESS = 0x68; // Default to 0x68
+const uint8_t MPU_ADDRESS = 0x68;
 
 // Toggle debug logging (1 = enabled, 0 = disabled)
 #define DEBUG 0
@@ -21,7 +21,7 @@ void read_mpu6050_angle() {
     myI2C.beginTransmission(MPU_ADDRESS);
     myI2C.write(0x3B);  // Starting register for accelerometer data
     myI2C.endTransmission(false);
-    myI2C.requestFrom(MPU_ADDRESS, 6);  // Only read accelerometer values
+    myI2C.requestFrom((uint8_t)MPU_ADDRESS, (uint8_t)6);
 
     if (myI2C.available() == 6) {
         int16_t ax = myI2C.read() << 8 | myI2C.read();
