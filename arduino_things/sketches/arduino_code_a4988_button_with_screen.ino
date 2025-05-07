@@ -119,7 +119,7 @@ void loop() {
     // Force sensor readings
     float drag = scale_drag.get_units(1);
     float lift = scale_lift.get_units(1);
-    drag_newtons = drag * GRAMS_TO_NEWTONS;
+    drag_newtons = -drag * GRAMS_TO_NEWTONS;
     lift_newtons = lift * GRAMS_TO_NEWTONS;
 
     // Airspeed calculation from pitot tube
@@ -154,7 +154,7 @@ void calibrate_airspeed_sensor() {
     offsetSum += analogRead(sensorPin) - 512;
   }
   offset = offsetSum / offsetSamples;
-}4
+}
 
 void receiveData(int byteCount) {
   while (Wire.available()) {
