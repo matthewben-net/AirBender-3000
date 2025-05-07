@@ -596,6 +596,19 @@ void create_screen_main() {
                                 }
                             }
                         }
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 225, 230);
+                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_label_set_text(obj, "Source code available at:");
+                        }
+                        {
+                            lv_obj_t *obj = lv_label_create(parent_obj);
+                            lv_obj_set_pos(obj, 213, 252);
+                            lv_obj_set_size(obj, 200, LV_SIZE_CONTENT);
+                            lv_label_set_long_mode(obj, LV_LABEL_LONG_SCROLL);
+                            lv_label_set_text(obj, "github.com/matthewben-net/AirBender-3000");
+                        }
                     }
                 }
             }
