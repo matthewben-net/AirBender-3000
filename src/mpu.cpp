@@ -32,13 +32,16 @@ void read_mpu6050_angle() {
         float ax_g = ax / 16384.0;
         float angleY = atan2(ax_g, sqrt((float)(ay * ay + az * az)) / 16384.0) * 180.0 / PI;
 
+        // Apply static offset correction
+        float calibratedAngleY = angleY - 3.55;
+
         // Set the float variable for bar graph
-        set_var_float_mpu_angle_number(angleY);
+        set_var_float_mpu_angle_number(calibratedAngleY);
 
         // Format and store the angle
-        char angle_str[100];
-        snprintf(angle_str, sizeof(angle_str), "%.2f Degrees", angleY);
-        set_var_string_mpu_angle_data(angle_str);
+		char angle_str[100];
+		snprintf(angle_str, sizeof(angle_str), "%.2f Degrees", calibratedAngleY);
+		set_var_string_mpu_angle_data(angle_str);
 
 #if DEBUG
     // If debugging, don't forget to add   Serial.begin(115200); in the main.cpp void setup() function
